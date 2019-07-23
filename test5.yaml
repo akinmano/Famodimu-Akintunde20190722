@@ -1,0 +1,78 @@
+---
+
+- name: simple batch program
+  hosts: localhost
+  gather_facts: true
+
+  vars:
+    record_4:
+      - AH: {"rank": "1","suit":"Heart","color":"Red" }
+      - KH: {"rank": "10","suit":"Heart","color":"Red" }
+      - 10D: {"rank": "1","suit":"Heart","color":"Red" }
+      - 5H: {"rank": "1","suit":"Heart","color":"Red" }
+      - AC: {"rank": "1","suit":"Club","color":"Black" }
+      - 10S: {"rank": "10","suit":"Spade","color":"Black" }
+      - AS: {"rank": "1","suit":"Spade","color":"Black" }
+      - 8H: {"rank": "8","suit":"Heart","color":"Red" }
+      - 9D: {"rank": "9","suit":"Diamond","color":"Red" }
+      - 5S: {"rank": "5","suit":"Spade","color":"Black" }
+      - 3D: {"rank": "3","suit":"Heart","color":"Red" }
+      - 7S: {"rank": "7","suit":"Spade","color":"Black" }
+      - 2D: {"rank": "2","suit":"Heart","color":"Red" }
+      - JH: {"rank": "10","suit":"Heart","color":"Red" }
+      - QS: {"rank": "10","suit":"Spade","color":"Black" }
+      - 2H: {"rank": "2","suit":"Heart","color":"Red" }
+      - QD: {"rank": "10","suit":"Heart","color":"Red" }
+      - 6S: {"rank": "6","suit":"Spade","color":"Black" }
+      - 5D: {"rank": "5","suit":"Heart","color":"Red" }
+      - 8D: {"rank": "8","suit":"Heart","color":"Red" }
+      - 2C: {"rank": "2","suit":"Club","color":"Black" }
+      - JC: {"rank": "10","suit":"Club","color":"Black" }
+      - KS: {"rank": "10","suit":"Spade","color":"Black" }
+      - KD: {"rank": "10","suit":"Heart","color":"Red" }
+      - 4H: {"rank": "4","suit":"Heart","color":"Red" }
+      - 3H: {"rank": "3","suit":"Heart","color":"Red" }
+      - 3C: {"rank": "3","suit":"Club","color":"Black" }
+      - 6D: {"rank": "6","suit":"Heart","color":"Red" }
+      - QH: {"rank": "10","suit":"Heart","color":"Red" }
+      - 9H: {"rank": "9","suit":"Heart","color":"Red" }
+      - JD: {"rank": "10","suit":"Heart","color":"Red" }
+      - 7D: {"rank": "7","suit":"Heart","color":"Red" }
+      - AD: {"rank": "1","suit":"Heart","color":"Red" }
+      - 2S: {"rank": "2","suit":"Spade","color":"Black" }
+      - 3S: {"rank": "3","suit":"Spade","color":"Black" }
+      - 4S: {"rank": "4","suit":"Spade","color":"Black" }
+      - 9S: {"rank": "9","suit":"Spade","color":"Black" }
+      - 9C: {"rank": "9","suit":"Club","color":"Black" }
+      - 5C: {"rank": "5","suit":"Club","color":"Black" }
+      - 7C: {"rank": "7","suit":"Club","color":"Black" }
+      - QC: {"rank": "10","suit":"Club","color":"Black" }
+      - 10H: {"rank": "10","suit":"Heart","color":"Red" }
+      - 10C: {"rank": "10","suit":"Club","color":"Black" }
+      - 8S: {"rank": "8","suit":"Spade","color":"Black" }
+      - JS: {"rank": "10","suit":"Spade","color":"Black" }
+      - 4D: {"rank": "4","suit":"Heart","color":"Red" }
+      - 6H: {"rank": "6","suit":"Heart","color":"Red" }
+      - 4C: {"rank": "4","suit":"Club","color":"Black" }
+      - 8C: {"rank": "8","suit":"Club","color":"Black" }
+      - 7H: {"rank": "7","suit":"Heart","color":"Red" }
+      - 6C: {"rank": "6","suit":"Club","color":"Black" }
+      - KC: {"rank": "10","suit":"Club","color":"Black" }
+
+  tasks:
+
+    - name: count number of items in an array
+      set_fact:
+        Number_of_elements: "{{ record_4|length }}"
+
+    - debug:
+        var: Number_of_elements
+
+    - name: fail batch when entries does not contain 52 entries
+      fail:
+        msg: Batch is invalid, terminating job
+      when: Number_of_elements != "52"
+
+    - debug:
+        msg: "{{ item }}"
+      with_dict: "{{ record_4  }}"
